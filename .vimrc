@@ -19,6 +19,7 @@ execute pathogen#infect()
 syntax on
 "colorscheme Tomorrow-Night-Eighties 
 colorscheme default
+" do indents with space always, with 2 space indent.
 set autoindent
 set nu
 set expandtab
