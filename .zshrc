@@ -37,31 +37,34 @@ fpath=(~/.zshcompletion $fpath)
 export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
 
 ## aliases
-alias hpc='ssh -X gateway.hpcc.msu.edu'
-alias hpca='ssh -L 31337:192.168.0.19:22 -a -X gateway.hpcc.msu.edu'
-alias gateway='ssh -X gateway.hpcc.msu.edu'
-alias gateway0='ssh -X gateway-00.hpcc.msu.edu'
-alias gateway1='ssh -X gateway-01.hpcc.msu.edu'
-alias admin='ssh -A -X gmason@192.168.0.19'
-alias admin0='ssh -A -X gmason@192.168.0.16'
-alias admin1='ssh -A -X gmason@192.168.0.19'
-alias rhel6='ssh -X gmason@172.16.186.127'
-alias radmin='ssh -C -A -X -p 31337 gmason@localhost'
-alias testgw='ssh -X gmason@testgw-00.i'
 unset LSCOLORS
 alias ls="gls --color"
 alias kmdns="sudo killall -9 mDNSResponder"
-alias root='nocorrect root'
-alias tungw1025='ssh -L 1025:192.168.0.19:22 -a gateway-00.hpcc.msu.edu'
-alias tunpup='ssh -L 31338:192.168.0.22:22 -p 1025 gmason@localhost'
-alias tunvm='ssh -L 9443:172.16.98.13:9443 -p 1025 gmason@localhost'
 alias pwgen='openssl rand -base64 $1 2> /dev/null'
 alias gpo='git push origin'
 source /Users/gmason/.iterm2_shell_integration.zsh
 
 ## app-specific stuff
-export HOMEBREW_GITHUB_API_TOKEN='36caca807c24aaff614474677a2672721f3505f1'
+export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
 
 
 # no longer tab-complete usernames and other junk
 unsetopt cdablevars
+zstyle ':completion:*:functions' ignored-patterns '_*'
+
+
+# hex <-> dec conversions
+#
+
+h2d(){
+  echo "ibase=16; $@"|bc
+}
+d2h(){
+  echo "obase=16; $@"|bc
+}
+
+PATH="/Users/gmason/perl5/bin${PATH+:}${PATH}"; export PATH;
+PERL5LIB="/Users/gmason/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/gmason/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/gmason/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/gmason/perl5"; export PERL_MM_OPT;
