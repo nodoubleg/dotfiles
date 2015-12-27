@@ -43,6 +43,7 @@ alias kmdns="sudo killall -9 mDNSResponder"
 alias pwgen='openssl rand -base64 $1 2> /dev/null'
 alias gpo='git push origin'
 source /Users/gmason/.iterm2_shell_integration.zsh
+export GIT_EDITOR='/usr/bin/vim'
 
 ## app-specific stuff
 export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
