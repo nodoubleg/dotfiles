@@ -16,3 +16,8 @@
 #   'ctrl-P': 'core:move-up'
 #   'ctrl-p': 'core:move-down'
 #
+
+'atom-text-editor.vim-mode:not(.insert-mode)':
+  'ctrl-e': 'editor:move-to-end-of-line'
+'atom-text-editor.vim-mode.normal-mode':
+  'ctrl-a': 'vim-mode:increase'

@@ -1,43 +1,19 @@
 "*":
   "exception-reporting":
-    userId: "1be18e6e-ddc5-5fea-acbd-6784366c8c1a"
-  "release-notes":
-    viewedVersion: "0.94.0"
+    userId: "b2656757-6276-af22-a7b2-eaaa7f2e7a53"
   welcome:
     showOnStartup: false
-  metrics:
-    userId: "e5eb1695a0db690b3c956143275678e712b79c44"
   core:
-    ignoredNames: [
-      ".git"
-      ".svn"
-      ".DS_Store"
-    ]
-    disabledPackages: [
-      "autoflow"
-      "autosave"
-      "background-tips"
-      "bookmarks"
-      "deprecation-cop"
-      "dev-live-reload"
-      "feedback"
-      "welcome"
-      "metrics"
-    ]
     themes: [
-      "atom-dark-ui"
+      "one-dark-ui"
       "base16-tomorrow-dark-theme"
     ]
-  "linter-shellcheck":
-    shellcheckExecutablePath: "/usr/local/bin/shellcheck"
-  "linter-puppet-lint":
-    puppetLintExecutablePath: "/usr/bin/puppet-lint"
   editor:
     invisibles: {}
-    scrollPastEnd: true
-    showIndentGuide: true
-    showInvisibles: true
-    softWrap: true
-    fontFamily: "Source Code Pro for Powerline"
-  linter:
-    showErrorInline: false
+    fontSize: 21
+  "linter-puppet-lint":
+    executablePath: "/usr/local/bin/puppet-lint"
+    oldVersion: false
+  "vim-mode":
+    startInInsertMode: true
+    useClipboardAsDefaultRegister: true
