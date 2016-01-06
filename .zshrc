@@ -24,7 +24,13 @@ DISABLE_AUTO_UPDATE="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx)
+# TODO: add better test.
+if [[ ${DESKTOP_SESSION}x != ubuntux ]]
+then
+  plugins=(git osx)
+else
+  plugins=(git ubuntu)
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -37,17 +43,43 @@ fpath=(~/.zshcompletion $fpath)
 export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
 
 ## aliases
-unset LSCOLORS
-alias ls="gls --color"
-alias kmdns="sudo killall -9 mDNSResponder"
-alias pwgen='openssl rand -base64 $1 2> /dev/null'
-alias gpo='git push origin'
-source /Users/gmason/.iterm2_shell_integration.zsh
+# mac-specific things. don't do them on ubuntu
+if [[ ${DESKTOP_SESSION}x != ubuntux ]]
+then
+  unset LSCOLORS
+  alias ls="gls --color"
+  alias kmdns="sudo killall -9 mDNSResponder"
+  source /Users/gmason/.iterm2_shell_integration.zsh
+  PATH="/Users/gmason/perl5/bin${PATH+:}${PATH}"; export PATH;
+  PERL5LIB="/Users/gmason/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
+  PERL_LOCAL_LIB_ROOT="/Users/gmason/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
+  PERL_MB_OPT="--install_base \"/Users/gmason/perl5\""; export PERL_MB_OPT;
+  PERL_MM_OPT="INSTALL_BASE=/Users/gmason/perl5"; export PERL_MM_OPT;
+  export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
+fi
 export GIT_EDITOR='/usr/bin/vim'
+alias gpo='git push origin'
+alias pwgen='openssl rand -base64 $1 2> /dev/null'
 
 ## app-specific stuff
 export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
 
+
+# tab-complete ssh hosts
+h=()
+if [[ -r ~/.ssh/config ]]; then
+  h=($h ${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
+fi
+if [[ -r ~/.ssh/known_hosts ]]; then
+  h=($h ${${${(f)"$(cat ~/.ssh/known_hosts{,2} || true)"}%%\ *}%%,*}) 2>/dev/null
+fi
+if [[ -r ~/.ssh/ldap_known_hosts ]]; then
+  h=($h ${${${(f)"$(cat ~/.ssh/ldap_known_hosts{,2} || true)"}%%\ *}%%,*}) 2>/dev/null
+fi
+if [[ $#h -gt 0 ]]; then
+  zstyle ':completion:*:ssh:*' hosts $h
+  zstyle ':completion:*:slogin:*' hosts $h
+fi
 
 # no longer tab-complete usernames and other junk
 unsetopt cdablevars
@@ -64,8 +96,4 @@ d2h(){
   echo "obase=16; $@"|bc
 }
 
-PATH="/Users/gmason/perl5/bin${PATH+:}${PATH}"; export PATH;
-PERL5LIB="/Users/gmason/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/gmason/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/gmason/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/gmason/perl5"; export PERL_MM_OPT;
+
