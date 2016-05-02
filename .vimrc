@@ -12,20 +12,21 @@ filetype plugin indent on
 " end vundle setup
 
 Bundle 'airblade/vim-gitgutter'
-Bundle 'daviddavis/vim-powerline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 execute pathogen#infect()
 
 syntax on
 "colorscheme Tomorrow-Night-Eighties 
 colorscheme default
-" do indents with space always, with 2 space indent.
+" do indents with space always, with 4 space indent. all hail python.
 set autoindent
 set nu
 set expandtab
-set shiftwidth=2
-set tabstop=2
-set softtabstop=2
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
 set smartindent
 
 " Shortcut for opening preview in Marked.app
@@ -47,7 +48,7 @@ set t_Co=256
 "let g:Powerline_cache_dir = simplify(expand('<sfile>:p:h') .'/..')
 
 " woo fancy colors
-let g:Powerline_symbols = 'fancy'
+let g:airline_powerline_fonts=1
 let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
 let g:gitgutter_sign_column_always = 1
