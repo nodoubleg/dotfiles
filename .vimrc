@@ -14,6 +14,15 @@ filetype plugin indent on
 Bundle 'airblade/vim-gitgutter'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'tmux-plugins/vim-tmux-focus-events'
+Plugin 'tmux-plugins/vim-tmux'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-tbone'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-obsession'
+
 
 execute pathogen#infect()
 
@@ -28,9 +37,6 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 set smartindent
-
-" Shortcut for opening preview in Marked.app
-nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
 
 " break-less word wrapping
 set wrap
