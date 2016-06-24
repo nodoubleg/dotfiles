@@ -63,3 +63,7 @@ let g:syntastic_puppet_lint_args = "--no-80chars-check"
 " aliases
 " shortcut for SyntasticCheck
 cnoreabbrev <expr> synck ((getcmdtype() is# ':' && getcmdline() is# 'synck')?('SyntasticCheck'):('synck'))
+
+" something above sets darkground=light. Objection!
+" sustained!
+set background=dark
