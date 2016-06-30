@@ -25,27 +25,10 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # TODO: add better test.
-if [[ ${DESKTOP_SESSION}x != ubuntux ]]
+uname=$(uname)
+if [[ ${uname}x != Linuxx ]]
 then
   plugins=(git osx)
-else
-  plugins=(git ubuntu)
-fi
-
-source $ZSH/oh-my-zsh.sh
-
-# custom completion
-fpath=(~/.zshcompletion $fpath)
-
-# Various paths
-# VIM_APP_DIR looks to default to /Applications
-#export VIM_APP_DIR="/Applications"
-export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
-
-## aliases
-# mac-specific things. don't do them on ubuntu
-if [[ ${DESKTOP_SESSION}x != ubuntux ]]
-then
   unset LSCOLORS
   alias ls="gls --color"
   alias kmdns="sudo killall -9 mDNSResponder"
@@ -56,14 +39,41 @@ then
   PERL_MB_OPT="--install_base \"/Users/gmason/perl5\""; export PERL_MB_OPT;
   PERL_MM_OPT="INSTALL_BASE=/Users/gmason/perl5"; export PERL_MM_OPT;
   export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
+  # Various paths
+  # VIM_APP_DIR looks to default to /Applications
+  #export VIM_APP_DIR="/Applications"
+  export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
+export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
+else
+  plugins=(git ubuntu zsh-256color)
+  export PATH=/home/gmason/bin:/home/gmason/bin/juju-tools:/usr/local/sbin:/usr/local/bin:$PATH
+  alias open='xdg-open 2>/dev/null'
+  alias jsft='juju status --format=tabular'
+  alias log_edit="ssh -t adelie.canonical.com log_edit $1"
+  alias log_view="ssh -t adelie.canonical.com log_view $1"
+  alias ubuntu-dev-tools='lxc exec kvm0:ubuntu-dev-things su - gmason'
+  alias sup-mail='lxc exec kvm0:sup-mail -- su - gmason -c sup-mail'
+  export SSH_ASKPASS=/usr/bin/ksshaskpass
+  export JUJU_REPOSITORY=$HOME/charms
+  #alias nukelxc="sudo find /run/lxcfs/controllers/pids/lxc/ -maxdepth 1 -type d | grep -v '/$' | xargs -n1 basename | xargs lxc delete -f"
 fi
+
+source $ZSH/oh-my-zsh.sh
+
+# git push to all remotes
+alias gpall="git remote | xargs -L1 git push --all"
+
+# custom completion
+fpath=(~/.zshcompletion $fpath)
+
+
 export GIT_EDITOR='/usr/bin/vim'
 alias gpo='git push origin'
-alias pwgen='openssl rand -base64 $1 2> /dev/null'
 
 ## app-specific stuff
-export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
 
+# stupid hack to work around zsh's insistence upon keeping the same CWD.
+cd $HOME
 
 # tab-complete ssh hosts
 h=()
@@ -85,6 +95,11 @@ fi
 unsetopt cdablevars
 zstyle ':completion:*:functions' ignored-patterns '_*'
 
+# let's try to stop honoring ctrl-s:
+stty -ixon
+# and resume on any key if that doesn't work:
+stty ixany
+
 
 # hex <-> dec conversions
 #
@@ -96,4 +111,21 @@ d2h(){
   echo "obase=16; $@"|bc
 }
 
+test -f ~/.sensitive_include && source ~/.sensitive_include
 
+cd $HOME
+unsetopt share_history
+
+. ~/.zsh_completions
+
+#test $KONSOLE_PROFILE_NAME && export TERM=screen-256color
+## workaround for handling TERM variable in multiple tmux sessions properly from http://sourceforge.net/p/tmux/mailman/message/32751663/ by Nicholas Marriott
+# if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
+# 	case $(tmux showenv TERM 2>/dev/null) in
+		# *256color) ;&
+		# TERM=fbterm)
+			# TERM=screen-256color ;;
+		# *)
+			# TERM=screen
+	# esac
+# fi
