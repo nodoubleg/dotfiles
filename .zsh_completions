@@ -1,0 +1,14 @@
+# The following lines were added by compinstall
+
+zstyle ':completion:*' completer _expand _complete _ignored _match _correct _approximate _prefix
+zstyle ':completion:*' expand prefix suffix
+zstyle ':completion:*' list-suffixes true
+zstyle ':completion:*' max-errors 3 numeric
+zstyle ':completion:*' preserve-prefix '//[^/]##/'
+zstyle ':completion:*' prompt 'errors: %e'
+zstyle ':completion:*' squeeze-slashes true
+zstyle :compinstall filename '/home/gmason/.zsh_completions'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
