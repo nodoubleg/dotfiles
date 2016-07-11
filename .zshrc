@@ -129,3 +129,5 @@ unsetopt share_history
 			# TERM=screen
 	# esac
 # fi
+
+export check='✔️'
