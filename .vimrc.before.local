@@ -1,0 +1,12 @@
+let g:airline_powerline_fonts=1
+let g:airline_theme = 'powerlineish'
+colorscheme default
+" Powerline stuff
+set laststatus=2
+set encoding=utf-8
+set t_Co=256
+
+"let g:Powerline_cache_dir = simplify(expand('<sfile>:p:h') .'/..')
+
+" woo fancy colors
+
