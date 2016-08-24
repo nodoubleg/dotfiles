@@ -1,6 +1,5 @@
 let g:airline_powerline_fonts=1
 let g:airline_theme = 'powerlineish'
-colorscheme default
 " Powerline stuff
 set laststatus=2
 set encoding=utf-8
