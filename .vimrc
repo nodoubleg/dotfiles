@@ -22,6 +22,11 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-tbone'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-obsession'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'Shougo/neocomplcache'
+Plugin 'myusuf3/numbers.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 
 execute pathogen#infect()
@@ -59,6 +64,7 @@ let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
 let g:gitgutter_sign_column_always = 1
 let g:syntastic_puppet_lint_args = "--no-80chars-check"
+let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m', 'nerdtree']
 
 " aliases
 " shortcut for SyntasticCheck

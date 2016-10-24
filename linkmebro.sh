@@ -8,6 +8,8 @@ ln -s ~/dotfiles/.zsh_completions ~/.zsh_completions
 #ln -s ~/dotfiles/.vimrc ~/.vimrc
 #rm ~/.gvimrc
 #ln -s ~/dotfiles/.gvimrc ~/.gvimrc
+rm -rf ~/.vim
+ln -s ~/dotfiles/.vim ~/.vim
 rm ~/.vimrc.local
 ln -s ~/dotfiles/.vimrc.local ~/.vimrc.local
 rm ~/.vimrc.before.local

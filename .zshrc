@@ -51,11 +51,18 @@ else
   alias jsft='juju status --format=tabular'
   alias log_edit="ssh -t adelie.canonical.com log_edit $1"
   alias log_view="ssh -t adelie.canonical.com log_view $1"
-  alias ubuntu-dev-tools='lxc exec kvm0:ubuntu-dev-things su - gmason'
+  alias ubuntu-dev-tools='lxc exec ubuntu-dev-things su - gmason'
   alias sup-mail='lxc exec kvm0:sup-mail -- su - gmason -c sup-mail'
   export SSH_ASKPASS=/usr/bin/ksshaskpass
   export JUJU_REPOSITORY=$HOME/charms
   #alias nukelxc="sudo find /run/lxcfs/controllers/pids/lxc/ -maxdepth 1 -type d | grep -v '/$' | xargs -n1 basename | xargs lxc delete -f"
+  if [ -n ${TMUX+x} ]; then
+      alias vi="export TERM=xterm-256color;vi"
+  fi
+  alias ham=hamster-cli
+  alias hams='hamster-cli stop'
+  alias haml='hamster-cli list'
+  alias hamb='hamster-cli start'
 fi
 
 source $ZSH/oh-my-zsh.sh
@@ -131,3 +138,9 @@ unsetopt share_history
 # fi
 
 export check='✔️'
+
+PATH="/home/gmason/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/gmason/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/gmason/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/gmason/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/gmason/perl5"; export PERL_MM_OPT;
