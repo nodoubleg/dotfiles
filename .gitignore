@@ -4,3 +4,4 @@ atom/compiler-cache
 atom/storage
 .vim/spell/*
 .vim/bundle/*
+*.cache
