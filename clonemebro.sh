@@ -14,8 +14,10 @@ cat /etc/sudoers.d/90-cloud* | sed -e s/ubuntu/gmason/g' > /etc/sudoers.d/80-gma
 
 # paste this as gmason:
 
+cd ~
 git clone https://github.com/nodoubleg/oh-my-zsh.git .oh-my-zsh
 git clone https://github.com/nodoubleg/dotfiles.git
+git clone https://github.com/nodoubleg/dotatom.git .atom
 bash dotfiles/linkmebro.sh
 chsh /bin/zsh
 
