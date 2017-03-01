@@ -12,36 +12,24 @@ filetype plugin indent on
 " end vundle setup
 
 Bundle 'airblade/vim-gitgutter'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'tmux-plugins/vim-tmux-focus-events'
-Plugin 'tmux-plugins/vim-tmux'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-sensible'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-tbone'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-obsession'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'Shougo/neocomplcache'
-Plugin 'myusuf3/numbers.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-
+Bundle 'daviddavis/vim-powerline'
 
 execute pathogen#infect()
 
 syntax on
 "colorscheme Tomorrow-Night-Eighties 
 colorscheme default
-" do indents with space always, with 4 space indent. all hail python.
+" do indents with space always, with 2 space indent.
 set autoindent
 set nu
 set expandtab
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
 set smartindent
+
+" Shortcut for opening preview in Marked.app
+nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
 
 " break-less word wrapping
 set wrap
@@ -59,17 +47,12 @@ set t_Co=256
 "let g:Powerline_cache_dir = simplify(expand('<sfile>:p:h') .'/..')
 
 " woo fancy colors
-let g:airline_powerline_fonts=1
+let g:Powerline_symbols = 'fancy'
 let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
 let g:gitgutter_sign_column_always = 1
 let g:syntastic_puppet_lint_args = "--no-80chars-check"
-let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m', 'nerdtree']
 
 " aliases
 " shortcut for SyntasticCheck
 cnoreabbrev <expr> synck ((getcmdtype() is# ':' && getcmdline() is# 'synck')?('SyntasticCheck'):('synck'))
-
-" something above sets darkground=light. Objection!
-" sustained!
-set background=dark
