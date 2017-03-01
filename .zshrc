@@ -26,13 +26,13 @@ DISABLE_AUTO_UPDATE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # TODO: add better test.
 
-source $ZSH/oh-my-zsh.sh
 
 uname=$(uname)
 if [[ ${uname}x != Linuxx ]]
 then
   plugins=(git osx zsh-256color)
   unset LSCOLORS
+  source $ZSH/oh-my-zsh.sh
   alias ls="/usr/local/bin/gls --color=tty"
   alias kmdns="sudo killall -9 mDNSResponder"
   source /Users/gmason/.iterm2_shell_integration.zsh
@@ -105,4 +105,10 @@ unsetopt share_history
 
 . ~/.zsh_completions
 
-
+# GPG as SSH_AGENT!
+# from: http://www.weinschenker.name/2013-10-08/use-gpgtools-for-ssh-logins-on-mac-os-x/
+export GPG_TTY=$(tty)
+if [ -f "${HOME}/.gpg-agent-info" ]; then
+  . "${HOME}/.gpg-agent-info"
+  export GPG_AGENT_INFO
+fi
