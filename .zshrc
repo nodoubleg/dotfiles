@@ -25,47 +25,27 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # TODO: add better test.
+
+source $ZSH/oh-my-zsh.sh
+
 uname=$(uname)
 if [[ ${uname}x != Linuxx ]]
 then
-  plugins=(git osx)
+  plugins=(git osx zsh-256color)
   unset LSCOLORS
-  alias ls="gls --color"
+  alias ls="/usr/local/bin/gls --color=tty"
   alias kmdns="sudo killall -9 mDNSResponder"
   source /Users/gmason/.iterm2_shell_integration.zsh
-  PATH="/Users/gmason/perl5/bin${PATH+:}${PATH}"; export PATH;
-  PERL5LIB="/Users/gmason/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
-  PERL_LOCAL_LIB_ROOT="/Users/gmason/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
-  PERL_MB_OPT="--install_base \"/Users/gmason/perl5\""; export PERL_MB_OPT;
-  PERL_MM_OPT="INSTALL_BASE=/Users/gmason/perl5"; export PERL_MM_OPT;
   export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
   # Various paths
   # VIM_APP_DIR looks to default to /Applications
   #export VIM_APP_DIR="/Applications"
   export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
-export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
 else
   plugins=(git ubuntu zsh-256color)
-  export PATH=/home/gmason/bin:/home/gmason/bin/juju-tools:/usr/local/sbin:/usr/local/bin:$PATH
   alias open='xdg-open 2>/dev/null'
-  alias jsft='juju status --format=tabular'
-  alias log_edit="ssh -t adelie.canonical.com log_edit $1"
-  alias log_view="ssh -t adelie.canonical.com log_view $1"
-  alias ubuntu-dev-tools='lxc exec ubuntu-dev-things su - gmason'
-  alias sup-mail='lxc exec kvm0:sup-mail -- su - gmason -c sup-mail'
-  export SSH_ASKPASS=/usr/bin/ksshaskpass
-  export JUJU_REPOSITORY=$HOME/charms
-  #alias nukelxc="sudo find /run/lxcfs/controllers/pids/lxc/ -maxdepth 1 -type d | grep -v '/$' | xargs -n1 basename | xargs lxc delete -f"
-  if [ -n ${TMUX+x} ]; then
-      alias vi="export TERM=xterm-256color;vi"
-  fi
-  alias ham=hamster-cli
-  alias hams='hamster-cli stop'
-  alias haml='hamster-cli list'
-  alias hamb='hamster-cli start'
 fi
 
-source $ZSH/oh-my-zsh.sh
 
 # git push to all remotes
 alias gpall="git remote | xargs -L1 git push --all"
@@ -125,22 +105,4 @@ unsetopt share_history
 
 . ~/.zsh_completions
 
-#test $KONSOLE_PROFILE_NAME && export TERM=screen-256color
-## workaround for handling TERM variable in multiple tmux sessions properly from http://sourceforge.net/p/tmux/mailman/message/32751663/ by Nicholas Marriott
-# if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
-# 	case $(tmux showenv TERM 2>/dev/null) in
-		# *256color) ;&
-		# TERM=fbterm)
-			# TERM=screen-256color ;;
-		# *)
-			# TERM=screen
-	# esac
-# fi
 
-export check='✔️'
-
-PATH="/home/gmason/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/gmason/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/gmason/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/gmason/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/gmason/perl5"; export PERL_MM_OPT;
