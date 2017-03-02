@@ -40,13 +40,5 @@ set tabstop=4
 set softtabstop=4
 set smartindent
 
-
-" gvim-specific stuff
-set background=dark
-let g:solarized_menu=1
-set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 14
-set lines=50
-set columns=100
-"set cursorline
-""highlight Normal guifg=white guibg=#011116
-set guioptions=egmrLt
+" spelling is annoying...
+set nospell

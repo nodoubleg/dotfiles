@@ -1,9 +1,9 @@
 set background=dark
 ""let g:solarized_menu=0
-colorscheme herald 
+"colorscheme herald 
 ""colorscheme default
 ""colorscheme solarized
-set guifont=Monaco\ for\ Powerline:h16
+set guifont=Menlo\ for\ Powerline:h16
 set lines=50
 set columns=90
 set cursorline
