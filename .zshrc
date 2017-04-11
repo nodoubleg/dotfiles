@@ -30,17 +30,15 @@ DISABLE_AUTO_UPDATE="true"
 uname=$(uname)
 if [[ ${uname}x != Linuxx ]]
 then
-  plugins=(git osx zsh-256color)
+  plugins=(git osx zsh-256color zsh_reload z)
   unset LSCOLORS
   source $ZSH/oh-my-zsh.sh
   alias ls="/usr/local/bin/gls --color=tty"
   alias kmdns="sudo killall -9 mDNSResponder"
   source /Users/gmason/.iterm2_shell_integration.zsh
-  export HOMEBREW_GITHUB_API_TOKEN='ZOMG_SUCH_TOKEN!'
   # Various paths
-  # VIM_APP_DIR looks to default to /Applications
-  #export VIM_APP_DIR="/Applications"
   export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
+  alias gnubin='export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"'
 else
   plugins=(git ubuntu zsh-256color)
   alias open='xdg-open 2>/dev/null'
@@ -97,6 +95,9 @@ h2d(){
 d2h(){
   echo "obase=16; $@"|bc
 }
+
+# mkdir + cd
+function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\"";  }
 
 test -f ~/.sensitive_include && source ~/.sensitive_include
 
