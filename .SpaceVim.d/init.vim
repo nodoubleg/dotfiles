@@ -4,7 +4,6 @@ syn off
 let g:indentLine_enabled = 0
 syn on
 "set nowrap
-set norelativenumber
 set lazyredraw
 set clipboard=unnamed
 "let g:airline#extensions#whitespace#enabled = 0
@@ -19,3 +18,9 @@ map <C-a> <Home>
 map <C-e> <End>
 " wrap arrow keys across newlines
 set whichwrap+=<,>,h,l,[,]
+let g:spacevim_relativenumber = 0
+set norelativenumber
+func! myspacevim#after() abort
+  let g:spacevim_relativenumber = 0
+  set norelativenumber
+endf
