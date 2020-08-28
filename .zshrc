@@ -27,38 +27,17 @@ DISABLE_AUTO_UPDATE="true"
 # TODO: add better test.
 
 
-uname=$(uname)
-if [[ ${uname}x != Linuxx ]]
-then
-  plugins=(git osx zsh-256color zsh_reload z)
-  unset LSCOLORS
-  source $ZSH/oh-my-zsh.sh
-  alias ls="/usr/local/bin/gls --color=tty"
-  alias kmdns="sudo killall -9 mDNSResponder"
-  source /Users/gmason/.iterm2_shell_integration.zsh
-  # Various paths
-  export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
-  alias gnubin='export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"'
-else
-  plugins=(git ubuntu zsh-256color)
-  alias open='xdg-open 2>/dev/null'
-fi
-
-
 # git push to all remotes
 alias gpall="git remote | xargs -L1 git push --all"
+alias gpo='git push origin'
 
 # custom completion
 fpath=(~/.zshcompletion $fpath)
 
-
-export GIT_EDITOR='/usr/bin/vim'
-alias gpo='git push origin'
-
 ## app-specific stuff
 
 # stupid hack to work around zsh's insistence upon keeping the same CWD.
-cd $HOME
+#cd $HOME
 
 # tab-complete ssh hosts
 h=()
@@ -86,16 +65,6 @@ stty -ixon
 stty ixany
 
 
-# hex <-> dec conversions
-#
-
-h2d(){
-  echo "ibase=16; $@"|bc
-}
-d2h(){
-  echo "obase=16; $@"|bc
-}
-
 # mkdir + cd
 function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\"";  }
 
@@ -104,7 +73,6 @@ test -f ~/.sensitive_include && source ~/.sensitive_include
 cd $HOME
 unsetopt share_history
 
-. ~/.zsh_completions
 
 # GPG as SSH_AGENT!
 # from: http://www.weinschenker.name/2013-10-08/use-gpgtools-for-ssh-logins-on-mac-os-x/
@@ -112,4 +80,39 @@ export GPG_TTY=$(tty)
 if [ -f "${HOME}/.gpg-agent-info" ]; then
   . "${HOME}/.gpg-agent-info"
   export GPG_AGENT_INFO
+fi
+
+uname=$(uname)
+if [[ ${uname}x != Linuxx ]]
+then
+  plugins=(gpg-agent git osx zsh-256color zsh_reload z hex2dec pandoc pwgen)
+  unset LSCOLORS
+  source $ZSH/oh-my-zsh.sh
+  alias ls="/usr/local/bin/gls --color=tty"
+  alias kmdns="sudo killall -9 mDNSResponder"
+  source /Users/gmason/.iterm2_shell_integration.zsh
+  # Various paths
+  export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
+  alias gnubin='export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"'
+else
+  plugins=(pandoc git ubuntu zsh-256color hex2dec pwgen)
+  alias open='xdg-open 2>/dev/null'
+fi
+
+# try using code for git?
+#if command -v code >/dev/null 2>&1
+#then
+#  export GIT_EDITOR="`command -v code` -wr"
+#else
+#  export GIT_EDITOR='/usr/bin/vim'
+#fi
+
+. ~/.zsh_completions
+
+# set up pandoc tab-complete
+# Can't put this in an oh-my-zsh plugin because compinit shenanigans.
+if command -v pandoc >/dev/null 2>&1
+then
+  autoload -U +X bashcompinit && bashcompinit
+  pandoc --bash-completion | source /dev/stdin
 fi
