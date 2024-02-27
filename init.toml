@@ -1,0 +1,14 @@
+[[layers]]
+  name = "autocomplete"
+  enable=false
+
+[[layers]]
+  name = "colorscheme"
+
+[[layers]]
+  name = "lang#toml"
+
+[options]
+  colorscheme = "SpaceVim"
+  colorscheme_bg = "dark"
+  enable_guicolors = true

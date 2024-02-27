@@ -1,6 +1,8 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+#zmodload zsh/zprof
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -76,26 +78,31 @@ unsetopt share_history
 
 # GPG as SSH_AGENT!
 # from: http://www.weinschenker.name/2013-10-08/use-gpgtools-for-ssh-logins-on-mac-os-x/
+eval $(/opt/homebrew/bin/gpg-agent --daemon 2> /dev/null)
 export GPG_TTY=$(tty)
 if [ -f "${HOME}/.gpg-agent-info" ]; then
   . "${HOME}/.gpg-agent-info"
   export GPG_AGENT_INFO
+  export SSH_AUTH_SOCK
 fi
 
 uname=$(uname)
-if [[ ${uname}x != Linuxx ]]
+if [[ ${uname}x -eq Darnwinx ]]
 then
-  plugins=(gpg-agent git osx zsh-256color zsh_reload z hex2dec pandoc pwgen)
+  plugins=(gpg-agent git osx zsh_reload z hex2dec pandoc pwgen zsh-interactive-cd colored-man-pages safe-paste man)
+  plugins=(git osx zsh_reload z hex2dec pandoc pwgen zsh-interactive-cd colored-man-pages safe-paste man)
+  eval "$(/opt/homebrew/bin/brew shellenv)"
   unset LSCOLORS
   source $ZSH/oh-my-zsh.sh
-  alias ls="/usr/local/bin/gls --color=tty"
+  alias ls="/opt/homebrew/bin/gls --color=tty"
   alias kmdns="sudo killall -9 mDNSResponder"
   source /Users/gmason/.iterm2_shell_integration.zsh
   # Various paths
   export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
-  alias gnubin='export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"'
-else
-  plugins=(pandoc git ubuntu zsh-256color hex2dec pwgen)
+  alias gnubin='export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"'
+elif [[ ${uname}x -eq Linuxx ]]
+then
+  plugins=(pandoc git ubuntu hex2dec pwgen colored-man-pages safe-paste man)
   alias open='xdg-open 2>/dev/null'
 fi
 
@@ -116,3 +123,23 @@ then
   autoload -U +X bashcompinit && bashcompinit
   pandoc --bash-completion | source /dev/stdin
 fi
+
+# Google cloud sdk stuff
+#source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+#source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+
+if [ -d /opt/puppetlabs/bin ]; then
+  export PATH=/opt/puppetlabs/bin:$PATH
+fi
+if [ -d /opt/puppetlabs/pdk/bin ]; then
+  export PATH=/opt/puppetlabs/pdk/bin:$PATH
+fi
+
+unsetopt share_history
+#zprof
+
+PATH="/Users/gmason/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/gmason/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/gmason/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/gmason/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/gmason/perl5"; export PERL_MM_OPT;

@@ -3,7 +3,8 @@ set background=dark
 "colorscheme herald 
 ""colorscheme default
 ""colorscheme solarized
-set guifont=Menlo\ for\ Powerline:h14
+"set guifont=Menlo\ for\ Powerline:h14
+set guifont=MesloLGSNerdFontComplete-Regular:h14
 set lines=50
 set columns=120
 set cursorline
