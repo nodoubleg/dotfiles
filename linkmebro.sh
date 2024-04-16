@@ -19,5 +19,13 @@ rm -rf ~/.vim
 ln -s ~/.SpaceVim ~/.vim
 rm ~/.vimrc
 rm ~/.gvimrc
+echo
+
+echo "setting up other apps..."
+echo "Moom import. may need Moom installed if missing."
+pkill Moom
+defaults import com.manytricks.Moom ~/dotfiles/Moom.plist
+open /Applications/Moom.app
+
 
 echo "done?"
