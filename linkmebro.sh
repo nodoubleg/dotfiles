@@ -26,6 +26,7 @@ echo "Moom import. may need Moom installed if missing."
 pkill Moom
 defaults import com.manytricks.Moom ~/dotfiles/Moom.plist
 open /Applications/Moom.app
-
+echo "opening Moom preferences to validate settings..."
+open /Applications/Moom.app
 
 echo "done?"
