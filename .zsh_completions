@@ -2,18 +2,22 @@
 
 
 
+
+
+
+
 # The following lines were added by compinstall
 
-zstyle ':completion:*' completer _list _oldlist _expand _complete _ignored _match _correct _approximate _prefix
+#zstyle ':completion:*' completer _list _oldlist _expand _complete _ignored _match _correct _approximate _prefix
+zstyle ':completion:*' completer _oldlist _expand _complete _ignored _match _correct _approximate _prefix
 zstyle ':completion:*' completions 1
+#zstyle ':completion:*' condition 0
 zstyle ':completion:*' expand prefix suffix
-zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' glob 1
 zstyle ':completion:*' ignore-parents parent pwd
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
 zstyle ':completion:*' list-suffixes true
-zstyle ':completion:*' match-original both
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' max-errors 3
 zstyle ':completion:*' menu select=10 select=0
@@ -23,7 +27,6 @@ zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %
 zstyle ':completion:*' substitute 1
 zstyle ':completion:*' use-compctl true
 zstyle ':completion:*' verbose true
-zstyle ':completion:*' word true
 zstyle :compinstall filename '/Users/gmason/.zsh_completions'
 
 autoload -Uz compinit

@@ -22,7 +22,7 @@ DISABLE_AUTO_UPDATE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -74,6 +74,7 @@ test -f ~/.sensitive_include && source ~/.sensitive_include
 
 cd $HOME
 unsetopt share_history
+setopt incappendhistory
 
 
 # GPG as SSH_AGENT!
@@ -89,8 +90,7 @@ fi
 uname=$(uname)
 if [[ ${uname}x -eq Darnwinx ]]
 then
-  plugins=(gpg-agent git osx zsh_reload z hex2dec pandoc pwgen zsh-interactive-cd colored-man-pages safe-paste man)
-  plugins=(git osx zsh_reload z hex2dec pandoc pwgen zsh-interactive-cd colored-man-pages safe-paste man)
+  plugins=(gpg-agent git osx zsh_reload z hex2dec pandoc pwgen zsh-interactive-cd colored-man-pages safe-paste man pandoc brew)
   eval "$(/opt/homebrew/bin/brew shellenv)"
   unset LSCOLORS
   source $ZSH/oh-my-zsh.sh
@@ -114,6 +114,8 @@ fi
 #  export GIT_EDITOR='/usr/bin/vim'
 #fi
 
+
+
 . ~/.zsh_completions
 
 # set up pandoc tab-complete
@@ -136,6 +138,7 @@ if [ -d /opt/puppetlabs/pdk/bin ]; then
 fi
 
 unsetopt share_history
+setopt incappendhistory
 #zprof
 
 PATH="/Users/gmason/perl5/bin${PATH:+:${PATH}}"; export PATH;
