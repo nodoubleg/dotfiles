@@ -1,0 +1,7 @@
+### Changelog
+- **docs**: minor fixes
+- **docs**: formatting
+- **feat**: `sub` with `cmd+enter` open subreddit in browser
+- **fix**: prev/next subreddit not working when using `sub` at first
+- **chore**: minor cleanup
+- **fix**: next/prev subreddit should also ignore leading `r/`
