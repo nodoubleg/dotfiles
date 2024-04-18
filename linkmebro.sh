@@ -29,4 +29,6 @@ open /Applications/Moom.app
 echo "opening Moom preferences to validate settings..."
 open /Applications/Moom.app
 
+cp ~/dotfiles/bin_ssh_wrapper.sh
+
 echo "done?"
