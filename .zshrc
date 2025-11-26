@@ -93,7 +93,7 @@ setopt incappendhistory
 uname=$(uname)
 if [[ $uname == "Darwin" ]]
 then
-  plugins=(git macos z hex2dec pandoc pwgen colored-man-pages safe-paste man brew thefuck perl starship iterm2)
+  plugins=(git yolo macos z hex2dec pandoc pwgen colored-man-pages safe-paste man brew thefuck perl starship iterm2 yolo)
   eval "$(/opt/homebrew/bin/brew shellenv)"
   unset LSCOLORS
   source $ZSH/oh-my-zsh.sh
@@ -105,7 +105,7 @@ then
   alias gnubin='export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"'
 elif [[ $uname == "Linux" ]]
 then
-  plugins=(pandoc git ubuntu hex2dec pwgen colored-man-pages safe-paste man thefuck perl starship iterm2)
+  plugins=(pandoc git yolo ubuntu hex2dec pwgen colored-man-pages safe-paste man thefuck perl starship iterm2 yolo)
   alias open='xdg-open 2>/dev/null'
 fi
 
