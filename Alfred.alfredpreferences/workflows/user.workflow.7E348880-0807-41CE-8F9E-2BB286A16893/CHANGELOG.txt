@@ -1,0 +1,2 @@
+### Changelog
+- **feat**: `col` to search for named css colors

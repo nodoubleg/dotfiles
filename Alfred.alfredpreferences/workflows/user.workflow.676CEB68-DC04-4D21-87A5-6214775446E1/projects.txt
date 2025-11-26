@@ -1,0 +1,4 @@
+https://jira.whamcloud.com/browse/EX
+https://jira.whamcloud.com/browse/DDN
+https://jira.whamcloud.com/browse/LU
+https://jira.whamcloud.com/browse/LUDOC

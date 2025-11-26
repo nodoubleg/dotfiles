@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<workflow>
+  <name>Jira browse ticket</name>
+  <version>1.0</version>
+  <bundle>com.cskeppstedt.jirabrowseticket</bundle>
+  <updated>1455369972</updated>
+  <file>jira_browse_ticket.alfredworkflow</file>
+</workflow>
