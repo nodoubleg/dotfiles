@@ -3,6 +3,15 @@
 # todo: turn this into a bunch of lxc exec calls
 echo "
 
+# on macOS:
+
+xcode-select --install
+cd ~
+git clone https://github.com/nodoubleg/oh-my-zsh.git .oh-my-zsh
+git clone https://github.com/nodoubleg/dotfiles.git
+bash dotfiles/fixmebro.sh
+chsh /bin/zsh
+
 # paste this as root:
 
 apt install zsh
@@ -18,7 +27,7 @@ cd ~
 git clone https://github.com/nodoubleg/oh-my-zsh.git .oh-my-zsh
 git clone https://github.com/nodoubleg/dotfiles.git
 git clone https://github.com/nodoubleg/dotatom.git .atom
-bash dotfiles/linkmebro.sh
+bash dotfiles/fixmebro.sh
 chsh /bin/zsh
 
 "

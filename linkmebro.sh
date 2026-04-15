@@ -1,9 +1,53 @@
 #!/bin/bash
 # installs symlinks for dotfiles
 
+ensure_homebrew() {
+  if command -v brew >/dev/null 2>&1; then
+    return
+  fi
+
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+setup_homebrew_env() {
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+}
+
+install_homebrew_packages() {
+  local packages=(
+    coreutils
+    pandoc
+    pwgen
+    thefuck
+    starship
+  )
+
+  for package in "${packages[@]}"; do
+    if ! brew list "$package" >/dev/null 2>&1; then
+      brew install "$package"
+    fi
+  done
+}
+
+if [[ "$(uname)" == "Darwin" ]]; then
+  echo "Installing Homebrew and shell utilities..."
+  ensure_homebrew
+  setup_homebrew_env
+  install_homebrew_packages
+  echo
+fi
+
 echo "Linking zsh config and oh-my-zsh..."
 rm ~/.zshrc
 ln -s ~/dotfiles/.zshrc ~/.zshrc
+rm -f ~/.zprofile
+ln -s ~/dotfiles/.zprofile ~/.zprofile
+rm -rf ~/.zshcompletion
+ln -s ~/dotfiles/.zshcompletion ~/.zshcompletion
 rm ~/.zsh_completions
 ln -s ~/dotfiles/.zsh_completions ~/.zsh_completions
 rm ~/Library/LaunchAgents/org.gnupg.gpg-agent.plist
@@ -29,6 +73,8 @@ open /Applications/Moom.app
 echo "opening Moom preferences to validate settings..."
 open /Applications/Moom.app
 
-cp ~/dotfiles/bin_ssh_wrapper.sh
+mkdir -p ~/bin
+cp ~/dotfiles/bin_ssh_wrapper.sh ~/bin/ssh
+chmod +x ~/bin/ssh
 
 echo "done?"
