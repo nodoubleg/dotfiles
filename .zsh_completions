@@ -29,6 +29,6 @@ zstyle ':completion:*' use-compctl true
 zstyle ':completion:*' verbose true
 zstyle :compinstall filename '/Users/gmason/.zsh_completions'
 
-autoload -Uz compinit
-compinit
+# Oh My Zsh already runs compinit. Keep the compinstall styles, but avoid a
+# second compinit so completion state is initialized only once.
 # End of lines added by compinstall

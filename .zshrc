@@ -1,7 +1,11 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
-HOMEBREW_NO_ENV_HINTS=1
+typeset -U path PATH fpath FPATH
+zmodload zsh/stat
+
+export HOMEBREW_NO_ENV_HINTS=1
+ZSH_DISABLE_COMPFIX=true
 
 #zmodload zsh/zprof
 
@@ -36,45 +40,74 @@ alias gpall="git remote | xargs -L1 git push --all"
 alias gpo='git push origin'
 
 # custom completion
-fpath=(~/.zshcompletion $fpath)
+fpath=("$HOME/.zshcompletion" $fpath)
+
+GMASON_SHELL_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/gmason-shell"
+GMASON_SSH_HOSTS_CACHE="$GMASON_SHELL_CACHE_DIR/ssh-hosts.txt"
+GMASON_SHELL_CACHE_UPDATER="$HOME/dotfiles/update_shell_caches.sh"
+GMASON_SSH_HOSTS_CACHE_MAX_SIZE=$((1024 * 1024))
+
+_gmason_load_ssh_hosts() {
+  local -A cache_stat
+
+  [[ -f "$GMASON_SSH_HOSTS_CACHE" ]] || return 1
+  [[ ! -L "$GMASON_SSH_HOSTS_CACHE" ]] || return 1
+
+  zstat -H cache_stat -- "$GMASON_SSH_HOSTS_CACHE" || return 1
+  (( cache_stat[size] <= GMASON_SSH_HOSTS_CACHE_MAX_SIZE )) || return 1
+
+  GMASON_SSH_HOSTS=("${(@f)$(<"$GMASON_SSH_HOSTS_CACHE")}")
+}
+
+_gmason_apply_ssh_hosts() {
+  (( ${+GMASON_SSH_HOSTS} && ${#GMASON_SSH_HOSTS[@]} > 0 )) || return 0
+  zstyle ':completion:*:ssh:*' hosts $GMASON_SSH_HOSTS
+  zstyle ':completion:*:slogin:*' hosts $GMASON_SSH_HOSTS
+}
+
+_gmason_refresh_ssh_hosts_cache() {
+  [[ -x "$GMASON_SHELL_CACHE_UPDATER" ]] || return 0
+
+  if [[ -r "$GMASON_SSH_HOSTS_CACHE" ]]; then
+    "$GMASON_SHELL_CACHE_UPDATER" ssh-hosts --if-older-than 86400 --if-inputs-newer >/dev/null 2>&1 &!
+  else
+    "$GMASON_SHELL_CACHE_UPDATER" ssh-hosts >/dev/null 2>&1
+  fi
+}
+
+_gmason_load_ssh_hosts || true
+_gmason_apply_ssh_hosts
+_gmason_refresh_ssh_hosts_cache
+if [[ -r "$GMASON_SSH_HOSTS_CACHE" ]] && (( ! ${+GMASON_SSH_HOSTS} || ${#GMASON_SSH_HOSTS[@]} == 0 )); then
+  _gmason_load_ssh_hosts || true
+  _gmason_apply_ssh_hosts
+fi
 
 ## app-specific stuff
 
 # stupid hack to work around zsh's insistence upon keeping the same CWD.
 #cd $HOME
 
-# tab-complete ssh hosts
-h=()
-if [[ -r ~/.ssh/config ]]; then
-  h=($h ${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
-fi
-if [[ -r ~/.ssh/known_hosts ]]; then
-  h=($h ${${${(f)"$(cat ~/.ssh/known_hosts{,2} || true)"}%%\ *}%%,*}) 2>/dev/null
-fi
-if [[ -r ~/.ssh/ldap_known_hosts ]]; then
-  h=($h ${${${(f)"$(cat ~/.ssh/ldap_known_hosts{,2} || true)"}%%\ *}%%,*}) 2>/dev/null
-fi
-if [[ $#h -gt 0 ]]; then
-  zstyle ':completion:*:ssh:*' hosts $h
-  zstyle ':completion:*:slogin:*' hosts $h
-fi
-
 # no longer tab-complete usernames and other junk
 unsetopt cdablevars
 zstyle ':completion:*:functions' ignored-patterns '_*'
 
-# let's try to stop honoring ctrl-s:
-stty -ixon
-# and resume on any key if that doesn't work:
-stty ixany
+if [[ -t 0 ]]; then
+  # let's try to stop honoring ctrl-s:
+  stty -ixon
+  # and resume on any key if that doesn't work:
+  stty ixany
+fi
 
 
 # mkdir + cd
-function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\"";  }
+mkdircd() {
+  (( $# )) || return 1
+  mkdir -p -- "$@" && builtin cd -- "${@[-1]}"
+}
 
 test -f ~/.sensitive_include && source ~/.sensitive_include
 
-cd $HOME
 unsetopt share_history
 setopt incappendhistory
 
@@ -90,24 +123,29 @@ setopt incappendhistory
 #  export SSH_AUTH_SOCK
 #fi
 
-uname=$(uname)
-if [[ $uname == "Darwin" ]]
+if [[ "$OSTYPE" == darwin* ]]
 then
-  plugins=(git yolo macos z hex2dec pandoc pwgen colored-man-pages safe-paste man brew thefuck perl starship iterm2 yolo)
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+  plugins=(git yolo macos z hex2dec pandoc pwgen colored-man-pages safe-paste man brew thefuck perl starship iterm2)
+  zstyle ':omz:plugins:iterm2' shell-integration yes
   unset LSCOLORS
-  source $ZSH/oh-my-zsh.sh
-  alias ls="/opt/homebrew/bin/gls --color=tty"
+  if [[ -x /opt/homebrew/bin/gls ]]; then
+    alias ls="/opt/homebrew/bin/gls --color=tty"
+  fi
   alias kmdns="sudo killall -9 mDNSResponder"
-  source /Users/gmason/.iterm2_shell_integration.zsh
   # Various paths
-  export PATH=/Users/gmason/bin:/usr/local/sbin:/usr/local/bin:$PATH
+  path=(/Users/gmason/bin /usr/local/sbin /usr/local/bin $path)
   alias gnubin='export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"'
-elif [[ $uname == "Linux" ]]
+elif [[ "$OSTYPE" == linux* ]]
 then
-  plugins=(pandoc git yolo ubuntu hex2dec pwgen colored-man-pages safe-paste man thefuck perl starship iterm2 yolo)
+  plugins=(pandoc git yolo ubuntu hex2dec pwgen colored-man-pages safe-paste man thefuck perl starship iterm2)
   alias open='xdg-open 2>/dev/null'
 fi
+
+if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
+  source "$ZSH/oh-my-zsh.sh"
+fi
+
+. ~/.zsh_completions
 
 # try using code for git?
 #if command -v code >/dev/null 2>&1
@@ -116,30 +154,25 @@ fi
 #else
 #  export GIT_EDITOR='/usr/bin/vim'
 #fi
-
-
-
-. ~/.zsh_completions
-
 # Google cloud sdk stuff
 #source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 #source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 
 if [ -d /opt/puppetlabs/bin ]; then
-  export PATH=/opt/puppetlabs/bin:$PATH
+  path=(/opt/puppetlabs/bin $path)
 fi
 if [ -d /opt/puppetlabs/pdk/bin ]; then
-  export PATH=/opt/puppetlabs/pdk/bin:$PATH
+  path=(/opt/puppetlabs/pdk/bin $path)
 fi
 
-unsetopt share_history
-setopt incappendhistory
 #zprof
 
-PATH="/Users/gmason/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/Users/gmason/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/gmason/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/gmason/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/gmason/perl5"; export PERL_MM_OPT;
+if [[ -d /Users/gmason/perl5 ]]; then
+  eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+fi
+
+if [[ -d /Users/gmason/.nvcodex ]]; then
+  path+=("/Users/gmason/.nvcodex/bin")
+fi
 
 #eval "$(starship init zsh)"
