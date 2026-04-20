@@ -25,6 +25,9 @@ vimcmd_replace_one_symbol = '[r](bold green)'
 vimcmd_replace_symbol = '[R ❮](bold green)'
 vimcmd_visual_symbol = '[VISUAL](bold orange)'
 
+[git_branch]
+symbol = ' '
+
 [hostname]
 ssh_only = false
 ssh_symbol = "🌐 "

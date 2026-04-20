@@ -6,3 +6,4 @@ atom/storage
 .vim/bundle/*
 *.cache
 Alfred.alfredpreferences/preferences/local/*
+.config/starship.toml

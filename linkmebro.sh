@@ -72,7 +72,7 @@ ln -s ~/dotfiles/.zshcompletion ~/.zshcompletion
 rm ~/.zsh_completions
 ln -s ~/dotfiles/.zsh_completions ~/.zsh_completions
 mkdir -p ~/.config
-cp ~/dotfiles/.config/starship.toml ~/.config/starship.toml
+cp ~/dotfiles/starship-presets/current-gmason.toml ~/.config/starship.toml
 rm ~/Library/LaunchAgents/org.gnupg.gpg-agent.plist
 ln -s org.gnupg.gpg-agent.plist ~/Library/LaunchAgents/org.gnupg.gpg-agent.plist
 echo

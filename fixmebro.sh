@@ -263,7 +263,7 @@ ensure_symlink "$repo_root/.zprofile" "$HOME/.zprofile"
 ensure_symlink "$repo_root/.zsh_completions" "$HOME/.zsh_completions"
 ensure_symlink "$repo_root/.zshcompletion" "$HOME/.zshcompletion"
 mkdir -p "$HOME/.config"
-ensure_data_copy "$repo_root/.config/starship.toml" "$HOME/.config/starship.toml"
+ensure_data_copy "$repo_root/starship-presets/current-gmason.toml" "$HOME/.config/starship.toml"
 show_shell_diffs=false
 if [[ "$(uname)" == "Darwin" ]]; then
   ensure_symlink "$repo_root/org.gnupg.gpg-agent.plist" "$HOME/Library/LaunchAgents/org.gnupg.gpg-agent.plist"

@@ -109,7 +109,7 @@ utc_time_offset = 'local'
 style = 'bg:color_orange fg:color_fg0 bold'
 
 [git_branch]
-symbol = ''
+symbol = ''
 style = 'bg:color_blue_mid fg:color_fg0'
 format = '[ $symbol $branch ]($style)'
 
