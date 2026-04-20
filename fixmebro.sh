@@ -215,6 +215,7 @@ ensure_symlink "$repo_root/.zshrc" "$HOME/.zshrc"
 ensure_symlink "$repo_root/.zprofile" "$HOME/.zprofile"
 ensure_symlink "$repo_root/.zsh_completions" "$HOME/.zsh_completions"
 ensure_symlink "$repo_root/.zshcompletion" "$HOME/.zshcompletion"
+ensure_symlink "$repo_root/.config/starship.toml" "$HOME/.config/starship.toml"
 show_shell_diffs=false
 if [[ "$(uname)" == "Darwin" ]]; then
   ensure_symlink "$repo_root/org.gnupg.gpg-agent.plist" "$HOME/Library/LaunchAgents/org.gnupg.gpg-agent.plist"

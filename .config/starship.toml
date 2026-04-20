@@ -1,0 +1,100 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+
+format = """
+$time\
+$username\
+[@](bold fg:#ed73bd)\
+$hostname\
+$directory\
+$all\
+$character"""
+right_format = '$status'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+[character]
+format = '$symbol '
+success_symbol = '[\$](fg:#f0f870)'
+error_symbol = '[\$](fg:#f0f870)'
+vimcmd_symbol = '[V](bold green)'
+vimcmd_replace_one_symbol = '[r](bold green)'
+vimcmd_replace_symbol = '[R ❮](bold green)'
+vimcmd_visual_symbol = '[VISUAL](bold orange)'
+
+[hostname]
+ssh_only = false
+ssh_symbol = "🌐 "
+trim_at = "."
+detect_env_vars = []
+format = "[$hostname$ssh_symbol]($style) "
+style = "bold white"
+disabled = false
+
+[hostname.aliases]
+
+[username]
+detect_env_vars = []
+format = "[$user]($style)"
+style_root = "red bold"
+style_user = "bold white"
+show_always = true
+disabled = false
+
+[username.aliases]
+
+
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+
+[sudo]
+disabled = false
+style = 'bold red'
+symbol = '🛠️ '
+format = '[ $symbol]($style)'
+
+[directory]
+truncation_length = 5
+truncate_to_repo = true
+use_logical_path = false
+format = "[$path]($style)[$read_only]($read_only_style) "
+repo_root_format = "[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
+style = "cyan bold"
+disabled = false
+read_only = "🔒"
+read_only_style = "red"
+truncation_symbol = '…/'
+home_symbol = '~'
+use_os_path_sep = true
+fish_style_pwd_dir_length = 0
+
+[directory.substitutions]
+'/Users/gmason/Library/Mobile\ Documents/com\~apple\~CloudDocs' = 'iCloud'
+
+
+[time]
+disabled = false
+format = '[$time ]($style)'
+time_format = '%H:%M'
+utc_time_offset = 'local'
+style = "cyan"
+
+[status]
+format = "[$symbol  $status]($style) "
+symbol = "❌"
+success_symbol = "✅"
+not_executable_symbol = "🚫"
+not_found_symbol = "🔍"
+sigint_symbol = "🧱"
+signal_symbol = "⚡"
+style = "bold red"
+map_symbol = false
+recognize_signal_code = true
+pipestatus = true
+pipestatus_separator = "|"
+pipestatus_format = '\[$pipestatus\] => [$symbol$common_meaning$signal_name$maybe_int]($style)'
+disabled = false
