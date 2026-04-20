@@ -93,6 +93,24 @@ ensure_file_copy() {
   log "installed $target_path"
 }
 
+ensure_data_copy() {
+  local source_path="$1"
+  local target_path="$2"
+
+  mkdir -p "$(dirname "$target_path")"
+
+  if [[ -f "$target_path" ]] && cmp -s "$source_path" "$target_path"; then
+    return 0
+  fi
+
+  if [[ -e "$target_path" || -L "$target_path" ]]; then
+    backup_path "$target_path"
+  fi
+
+  cp "$source_path" "$target_path"
+  log "installed $target_path"
+}
+
 ensure_git_repo() {
   local repo_url="$1"
   local target_path="$2"
@@ -119,9 +137,18 @@ ensure_homebrew() {
 setup_homebrew_env() {
   local brew_bin
 
+  if [[ "$(uname)" == "Darwin" ]]; then
+    if [[ "$(uname -m)" == "arm64" ]]; then
+      brew_bin=/opt/homebrew/bin/brew
+    else
+      brew_bin=/usr/local/bin/brew
+    fi
+    [[ -x "$brew_bin" ]] || return 1
+    eval "$("$brew_bin" shellenv)"
+    return 0
+  fi
+
   for brew_bin in \
-    /opt/homebrew/bin/brew \
-    /usr/local/bin/brew \
     /home/linuxbrew/.linuxbrew/bin/brew \
     "$HOME/.linuxbrew/bin/brew"
   do
@@ -147,6 +174,26 @@ install_homebrew_packages() {
   for package in "${packages[@]}"; do
     if ! brew list "$package" >/dev/null 2>&1; then
       brew install "$package"
+    fi
+  done
+}
+
+install_meslo_fonts() {
+  local font_dir="$repo_root/shameless_blobs/p10k-meslo-nerd-font"
+  local font_name
+  local -a fonts=(
+    "MesloLGS NF Regular.ttf"
+    "MesloLGS NF Bold.ttf"
+    "MesloLGS NF Italic.ttf"
+    "MesloLGS NF Bold Italic.ttf"
+  )
+
+  [[ "$(uname)" == "Darwin" ]] || return 0
+  [[ -d "$font_dir" ]] || return 0
+
+  for font_name in "${fonts[@]}"; do
+    if [[ -f "$font_dir/$font_name" ]]; then
+      ensure_data_copy "$font_dir/$font_name" "$HOME/Library/Fonts/$font_name"
     fi
   done
 }
@@ -215,17 +262,22 @@ ensure_symlink "$repo_root/.zshrc" "$HOME/.zshrc"
 ensure_symlink "$repo_root/.zprofile" "$HOME/.zprofile"
 ensure_symlink "$repo_root/.zsh_completions" "$HOME/.zsh_completions"
 ensure_symlink "$repo_root/.zshcompletion" "$HOME/.zshcompletion"
-ensure_symlink "$repo_root/.config/starship.toml" "$HOME/.config/starship.toml"
+mkdir -p "$HOME/.config"
+ensure_data_copy "$repo_root/.config/starship.toml" "$HOME/.config/starship.toml"
 show_shell_diffs=false
 if [[ "$(uname)" == "Darwin" ]]; then
   ensure_symlink "$repo_root/org.gnupg.gpg-agent.plist" "$HOME/Library/LaunchAgents/org.gnupg.gpg-agent.plist"
 fi
 
 log "ensuring editor setup..."
-ensure_spacevim_layout
+# SpaceVim bootstrap is intentionally disabled for now.
+# ensure_spacevim_layout
 
 log "installing ssh wrapper..."
 ensure_file_copy "$repo_root/bin_ssh_wrapper.sh" "$HOME/bin/ssh"
+
+log "installing Meslo Nerd Font..."
+install_meslo_fonts
 
 maybe_import_moom
 

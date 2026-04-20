@@ -133,7 +133,7 @@ then
   fi
   alias kmdns="sudo killall -9 mDNSResponder"
   # Various paths
-  path=(/Users/gmason/bin /usr/local/sbin /usr/local/bin $path)
+  path=(/Users/gmason/bin $path)
   alias gnubin='export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"'
 elif [[ "$OSTYPE" == linux* ]]
 then

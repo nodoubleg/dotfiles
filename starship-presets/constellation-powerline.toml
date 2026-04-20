@@ -1,0 +1,205 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$cmd_duration\
+[](fg:color_red)\
+$os\
+$username\
+$hostname\
+[](fg:color_red bg:color_orange)\
+$time\
+[](fg:color_orange bg:color_yellow)\
+$directory\
+[](fg:color_yellow bg:color_blue_mid)\
+$sudo\
+$git_branch\
+$git_status\
+$docker_context\
+$conda\
+$c\
+$rust\
+$golang\
+$nodejs\
+$php\
+$java\
+$kotlin\
+$haskell\
+$python\
+[ ](bg:color_blue_mid)\
+[](fg:color_blue_mid)\
+$line_break$character"""
+right_format = '$status'
+add_newline = false
+palette = 'starfield_constellation'
+
+[palettes.starfield_constellation]
+color_fg0 = '#f5f7f9'
+color_black = '#000000'
+color_red = '#c82337'
+color_orange = '#e06236'
+color_yellow = '#d7ab61'
+color_blue_mid = '#2f4c79'
+color_blue_dark = '#21314f'
+color_blue_light = '#4a668d'
+color_gray_1 = '#373735'
+color_gray_2 = '#646464'
+color_gray_3 = '#9b9b9b'
+color_red_alt = '#bc393c'
+color_red_dark = '#5f2927'
+color_orange_alt = '#d56942'
+color_orange_soft = '#af714a'
+color_yellow_alt = '#d5a658'
+color_blue_dark_alt = '#28334f'
+color_blue_mid_alt = '#334c76'
+color_blue_soft = '#4e6689'
+color_blue_light_alt = '#5f617e'
+
+[os]
+disabled = false
+style = 'bg:color_red fg:color_fg0 bold'
+format = '[ $symbol ]($style)'
+
+[os.symbols]
+Macos = ''
+
+[username]
+show_always = true
+style_user = 'bg:color_red fg:__GMASON_USER_HOST_COLOR__ bold'
+style_root = 'bg:color_red fg:__GMASON_USER_HOST_COLOR__ bold'
+format = '[ $user]($style)'
+
+[hostname]
+ssh_only = false
+ssh_symbol = " 🌐"
+trim_at = '.'
+detect_env_vars = []
+style = 'bg:color_red fg:__GMASON_USER_HOST_COLOR__ bold'
+format = '[@](bg:color_red fg:#ed73bd bold)[$hostname$ssh_symbol ]($style)'
+
+[sudo]
+disabled = false
+style = 'bg:color_blue_mid fg:color_fg0 bold'
+symbol = '🛠️'
+format = '[ $symbol ]($style)'
+
+[directory]
+truncation_length = 5
+truncate_to_repo = true
+use_logical_path = false
+format = '[ $path ]($style)[$read_only]($read_only_style)'
+repo_root_format = '[ $before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path ]($style)[$read_only]($read_only_style)'
+style = 'bg:color_yellow fg:color_blue_dark bold'
+before_repo_root_style = 'bg:color_yellow fg:color_blue_dark bold'
+repo_root_style = 'bg:color_yellow fg:color_blue_dark bold'
+read_only = ' 🔒'
+read_only_style = 'bg:color_yellow fg:color_red bold'
+truncation_symbol = '…/'
+home_symbol = '~'
+use_os_path_sep = true
+fish_style_pwd_dir_length = 0
+
+[directory.substitutions]
+'/Users/gmason/Library/Mobile\ Documents/com\~apple\~CloudDocs' = 'iCloud'
+
+[time]
+disabled = false
+format = '[ $time ]($style)'
+time_format = '%H:%M'
+utc_time_offset = 'local'
+style = 'bg:color_orange fg:color_fg0 bold'
+
+[git_branch]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[($all_status$ahead_behind )]($style)'
+
+[docker_context]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $context) ]($style)'
+
+[conda]
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $environment) ]($style)'
+
+[nodejs]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $version) ]($style)'
+
+[c]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $version) ]($style)'
+
+[rust]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $version) ]($style)'
+
+[golang]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $version) ]($style)'
+
+[php]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $version) ]($style)'
+
+[java]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $version) ]($style)'
+
+[kotlin]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $version) ]($style)'
+
+[haskell]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $version) ]($style)'
+
+[python]
+symbol = ''
+style = 'bg:color_blue_mid fg:color_fg0'
+format = '[ $symbol( $version) ]($style)'
+
+[package]
+disabled = true
+
+[character]
+format = '$symbol '
+success_symbol = '[\$](fg:#f0f870)'
+error_symbol = '[\$](fg:#f0f870)'
+vimcmd_symbol = '[V](bold green)'
+vimcmd_replace_one_symbol = '[r](bold green)'
+vimcmd_replace_symbol = '[R ❮](bold green)'
+vimcmd_visual_symbol = '[VISUAL](bold orange)'
+
+[status]
+format = "[$symbol  $status]($style) "
+symbol = '❌'
+success_symbol = '✅'
+not_executable_symbol = '🚫'
+not_found_symbol = '🔍'
+sigint_symbol = '🧱'
+signal_symbol = '⚡'
+style = 'bold fg:color_red'
+map_symbol = false
+recognize_signal_code = true
+pipestatus = true
+pipestatus_separator = '|'
+pipestatus_format = '\[$pipestatus\] => [$symbol$common_meaning$signal_name$maybe_int]($style)'
+disabled = false
+
+[cmd_duration]
+min_time = 2000
+format = "took [$duration]($style)\n"
+style = 'fg:color_blue_light bold'

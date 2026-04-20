@@ -31,7 +31,7 @@ ssh_symbol = "🌐 "
 trim_at = "."
 detect_env_vars = []
 format = "[$hostname$ssh_symbol]($style) "
-style = "bold white"
+style = "bold __GMASON_USER_HOST_COLOR__"
 disabled = false
 
 [hostname.aliases]
@@ -40,15 +40,12 @@ disabled = false
 detect_env_vars = []
 format = "[$user]($style)"
 style_root = "red bold"
-style_user = "bold white"
+style_user = "bold __GMASON_USER_HOST_COLOR__"
 show_always = true
 disabled = false
 
 [username.aliases]
 
-
-
-# Disable the package module, hiding it from the prompt completely
 [package]
 disabled = true
 
@@ -75,7 +72,6 @@ fish_style_pwd_dir_length = 0
 
 [directory.substitutions]
 '/Users/gmason/Library/Mobile\ Documents/com\~apple\~CloudDocs' = 'iCloud'
-
 
 [time]
 disabled = false
